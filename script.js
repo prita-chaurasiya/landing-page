@@ -1,13 +1,16 @@
 /**
- * HUMAN RIGHTS COUNCIL OF INDIA (HRCI) - OFFICIAL PORTAL JS
- * Vanilla JavaScript (Zero Dependencies, Production-Ready)
+ * HUMAN RIGHTS COUNCIL OF INDIA (HRCI) / भारतीय मानवाधिकार परिषद
+ * SINGLE HIGH-CONVERTING CRO LANDING PAGE - VANILLA JS ENGINE
+ * Zero dependencies, ultra-fast, cross-browser, accessible
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initMobileNav();
+  initSmoothScroll();
   initCounters();
   initTestimonialSlider();
+  initPlanSelectors();
   initVideoModal();
   initIdCardModal();
   initLeadForm();
@@ -15,42 +18,44 @@ document.addEventListener('DOMContentLoaded', () => {
   initSocialProofToast();
   initBackToTop();
   initButtonRipples();
-  initIdVerificationSearch();
 });
 
 /* --------------------------------------------------------------------------
-   1. STICKY SLIM NAVBAR
+   1. STICKY NAVBAR WITH BACKDROP GLASSMORPHISM
    -------------------------------------------------------------------------- */
 function initStickyHeader() {
   const navbar = document.getElementById('mainNavbar');
   if (!navbar) return;
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 30) {
+  const handleScroll = () => {
+    if (window.scrollY > 40) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
-  }, { passive: true });
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
 }
 
 /* --------------------------------------------------------------------------
-   2. MOBILE NAVIGATION DRAWER
+   2. MOBILE NAVIGATION DRAWER & EXIT CROSS (✕)
    -------------------------------------------------------------------------- */
 function initMobileNav() {
   const hamburger = document.getElementById('navHamburger');
   const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-  const navLinksRow = document.getElementById('navbarList') || document.getElementById('navLinksRow');
+  const navList = document.getElementById('navbarList');
 
-  if (!hamburger || !navLinksRow) return;
+  if (!hamburger || !navList) return;
 
   function toggleMenu(forceClose = false) {
     if (forceClose) {
       hamburger.classList.remove('active');
-      navLinksRow.classList.remove('open');
+      navList.classList.remove('open');
       document.body.classList.remove('drawer-open');
     } else {
-      const isOpen = navLinksRow.classList.toggle('open');
+      const isOpen = navList.classList.toggle('open');
       hamburger.classList.toggle('active', isOpen);
       document.body.classList.toggle('drawer-open', isOpen);
     }
@@ -61,7 +66,6 @@ function initMobileNav() {
     toggleMenu();
   });
 
-  // Dedicated Cut Cross (✕) Close Button inside Drawer Header
   if (drawerCloseBtn) {
     drawerCloseBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -69,64 +73,59 @@ function initMobileNav() {
     });
   }
 
-  // Dropdown Accordion for Mobile and Click-Toggle for Desktop
-  const navItems = navLinksRow.querySelectorAll('.nav-link-item');
-
-  navLinksRow.addEventListener('click', (e) => {
+  // Auto-close drawer when clicking any anchor link
+  navList.addEventListener('click', (e) => {
     const anchor = e.target.closest('a');
-    if (!anchor) return;
-
-    const parentItem = anchor.closest('.nav-link-item');
-    const dropdown = parentItem ? parentItem.querySelector('.nav-dropdown') : null;
-
-    // Check if user clicked a top-level anchor that has a dropdown
-    if (dropdown && anchor.classList.contains('nav-anchor')) {
-      if (window.innerWidth <= 992) {
-        e.preventDefault();
-        e.stopPropagation();
-        const isOpen = parentItem.classList.contains('dropdown-open');
-        // Close all other dropdown accordions in the drawer
-        navLinksRow.querySelectorAll('.nav-link-item.dropdown-open').forEach(el => {
-          if (el !== parentItem) el.classList.remove('dropdown-open');
-        });
-        parentItem.classList.toggle('dropdown-open', !isOpen);
-      } else {
-        // Desktop click behavior
-        if (e.target.closest('.caret-icon') || anchor.getAttribute('href') === '#' || anchor.getAttribute('href').includes(window.location.pathname.split('/').pop() || 'index.html')) {
-          e.preventDefault();
-          const isOpen = parentItem.classList.contains('dropdown-open');
-          navItems.forEach(other => {
-            if (other !== parentItem) other.classList.remove('dropdown-open');
-          });
-          parentItem.classList.toggle('dropdown-open', !isOpen);
-        }
-      }
-    } else {
-      // Sub-item link or direct navigation link clicked
-      if (navLinksRow.classList.contains('open')) {
-        toggleMenu(true);
-      }
+    if (anchor && navList.classList.contains('open')) {
+      toggleMenu(true);
     }
   });
 
-  // Close when tapping outside
+  // Close when tapping outside the open drawer
   document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 992) {
-      if (navLinksRow.classList.contains('open') &&
-          !navLinksRow.contains(e.target) &&
-          !hamburger.contains(e.target)) {
-        toggleMenu(true);
-      }
-    } else {
-      if (!e.target.closest('.nav-link-item')) {
-        navItems.forEach(item => item.classList.remove('dropdown-open'));
-      }
+    if (navList.classList.contains('open') &&
+        !navList.contains(e.target) &&
+        !hamburger.contains(e.target)) {
+      toggleMenu(true);
     }
   });
 }
 
 /* --------------------------------------------------------------------------
-   3. STATS COUNTER ANIMATION
+   3. IN-PAGE SMOOTH SCROLL WITH NAVBAR OFFSET
+   -------------------------------------------------------------------------- */
+function initSmoothScroll() {
+  const navLinks = document.querySelectorAll('a[href^="#"]');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        const navbar = document.getElementById('mainNavbar');
+        const navHeight = navbar ? navbar.offsetHeight : 46;
+        const targetPos = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
+
+        window.scrollTo({
+          top: targetPos,
+          behavior: 'smooth'
+        });
+
+        // Update active class in navbar
+        document.querySelectorAll('.nav-anchor').forEach(a => a.classList.remove('active-home'));
+        if (this.classList.contains('nav-anchor')) {
+          this.classList.add('active-home');
+        }
+      }
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   4. STATS COUNTER ANIMATION (TABULAR NUMS & ZERO JITTER)
    -------------------------------------------------------------------------- */
 function initCounters() {
   const counterElements = document.querySelectorAll('.stat-number[data-target]');
@@ -147,6 +146,7 @@ function initCounters() {
           function updateCounter(currentTime) {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
             const easeOut = 1 - Math.pow(1 - progress, 3);
             const currentVal = Math.floor(easeOut * target);
 
@@ -163,16 +163,16 @@ function initCounters() {
         });
       }
     });
-  }, { threshold: 0.25 });
+  }, { threshold: 0.2 });
 
-  const statsSection = document.querySelector('.stats-strip-section');
+  const statsSection = document.getElementById('stats');
   if (statsSection) {
     observer.observe(statsSection);
   }
 }
 
 /* --------------------------------------------------------------------------
-   4. TESTIMONIALS SLIDER
+   5. TESTIMONIALS SLIDER (TOUCH + AUTO-PLAY + ARROWS)
    -------------------------------------------------------------------------- */
 function initTestimonialSlider() {
   const track = document.querySelector('.testimonials-track');
@@ -183,8 +183,6 @@ function initTestimonialSlider() {
   if (!track || !cards.length) return;
 
   let currentIndex = 0;
-  let cardsPerView = getCardsPerView();
-  let maxIndex = Math.max(0, cards.length - cardsPerView);
   let autoplayInterval;
 
   function getCardsPerView() {
@@ -194,8 +192,8 @@ function initTestimonialSlider() {
   }
 
   function updateSlider() {
-    cardsPerView = getCardsPerView();
-    maxIndex = Math.max(0, cards.length - cardsPerView);
+    const cardsPerView = getCardsPerView();
+    const maxIndex = Math.max(0, cards.length - cardsPerView);
     if (currentIndex > maxIndex) currentIndex = maxIndex;
 
     const cardWidth = cards[0].offsetWidth;
@@ -205,6 +203,8 @@ function initTestimonialSlider() {
   }
 
   function nextSlide() {
+    const cardsPerView = getCardsPerView();
+    const maxIndex = Math.max(0, cards.length - cardsPerView);
     if (currentIndex < maxIndex) {
       currentIndex++;
     } else {
@@ -214,6 +214,8 @@ function initTestimonialSlider() {
   }
 
   function prevSlide() {
+    const cardsPerView = getCardsPerView();
+    const maxIndex = Math.max(0, cards.length - cardsPerView);
     if (currentIndex > 0) {
       currentIndex--;
     } else {
@@ -225,12 +227,10 @@ function initTestimonialSlider() {
   if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
   if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
 
-  window.addEventListener('resize', () => {
-    updateSlider();
-  });
+  window.addEventListener('resize', updateSlider);
 
   function startAutoplay() {
-    autoplayInterval = setInterval(nextSlide, 4500);
+    autoplayInterval = setInterval(nextSlide, 5000);
   }
 
   function resetAutoplay() {
@@ -266,20 +266,65 @@ function initTestimonialSlider() {
 }
 
 /* --------------------------------------------------------------------------
-   5. VIDEO MODAL PLAYER
+   6. PLAN SELECTION BUTTONS -> FORM PRE-FILL & SMOOTH SCROLL
+   -------------------------------------------------------------------------- */
+function initPlanSelectors() {
+  const planButtons = document.querySelectorAll('.btn-plan-select');
+  const membershipSelect = document.getElementById('membershipType');
+  const formCard = document.querySelector('.lead-form-card');
+
+  planButtons.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      const planName = this.getAttribute('data-plan');
+      if (membershipSelect && planName) {
+        // Try to match select option
+        for (let i = 0; i < membershipSelect.options.length; i++) {
+          if (membershipSelect.options[i].value === planName ||
+              membershipSelect.options[i].text.includes(planName.split(' ')[0])) {
+            membershipSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      // Highlight form with glowing flash
+      if (formCard) {
+        formCard.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
+        formCard.style.borderColor = '#D90429';
+        formCard.style.boxShadow = '0 0 0 4px rgba(217, 4, 41, 0.35), 0 20px 40px rgba(0, 0, 0, 0.2)';
+        setTimeout(() => {
+          formCard.style.borderColor = '';
+          formCard.style.boxShadow = '';
+        }, 1800);
+      }
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   7. YOUTUBE VIDEO POPUP MODAL
    -------------------------------------------------------------------------- */
 function initVideoModal() {
   const videoCards = document.querySelectorAll('.video-card-item');
   const modal = document.getElementById('videoModal');
   const modalIframe = document.getElementById('videoIframe');
-  const closeBtn = document.getElementById('closeVideoModal');
+  const closeBtn = document.getElementById('videoModalCloseBtn');
+  const modalTitle = document.getElementById('videoModalTitle');
 
   if (!modal || !modalIframe) return;
 
+  // Video embed mappings
+  const videoUrls = {
+    'dQw4w9WgXcQ': 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1'
+  };
+
   videoCards.forEach(card => {
     card.addEventListener('click', () => {
-      const embedUrl = card.getAttribute('data-embed-url') || 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1';
-      modalIframe.src = embedUrl;
+      const videoId = card.getAttribute('data-video-id') || 'dQw4w9WgXcQ';
+      const title = card.getAttribute('data-video-title') || 'HRCI Official Event Video';
+      
+      if (modalTitle) modalTitle.textContent = title;
+      modalIframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     });
@@ -292,6 +337,7 @@ function initVideoModal() {
   }
 
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
   });
@@ -304,150 +350,138 @@ function initVideoModal() {
 }
 
 /* --------------------------------------------------------------------------
-   6. ID CARD LIVE PREVIEW MODAL
+   8. OFFICIAL PVC MEMBERSHIP ID CARD MODAL
    -------------------------------------------------------------------------- */
 function initIdCardModal() {
   const triggerBtns = document.querySelectorAll('.btn-trigger-id-modal');
   const modal = document.getElementById('idCardModal');
-  const closeBtn = document.getElementById('closeIdModal');
-  const nameField = document.getElementById('idCardNameDisplay');
-  const roleField = document.getElementById('idCardRoleDisplay');
-  const applicantInput = document.getElementById('applicantName');
-  const professionInput = document.getElementById('applicantProfession');
+  const closeBtn = document.getElementById('idModalCloseBtn');
+  const claimBtn = document.getElementById('btnClaimIdCard');
 
   if (!modal) return;
 
-  triggerBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (applicantInput && applicantInput.value.trim() && nameField) {
-        nameField.textContent = applicantInput.value.trim().toUpperCase();
-      }
-      if (professionInput && professionInput.value.trim() && roleField) {
-        roleField.textContent = `${professionInput.value.trim()} • Official Member`;
-      }
+  function openModal() {
+    // Dynamic preview from form input if entered
+    const nameInput = document.getElementById('fullName');
+    const roleInput = document.getElementById('profession');
+    const pvcNameVal = document.querySelector('.pvc-detail-row:nth-child(1) .pvc-val');
+    const pvcDesigVal = document.querySelector('.pvc-detail-row:nth-child(3) .pvc-val');
 
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-  });
+    if (nameInput && nameInput.value.trim() && pvcNameVal) {
+      pvcNameVal.textContent = nameInput.value.trim().toUpperCase();
+    }
+    if (roleInput && roleInput.value.trim() && pvcDesigVal) {
+      pvcDesigVal.textContent = roleInput.value.trim().toUpperCase();
+    }
 
-  function closeIdModal() {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
   }
 
-  if (closeBtn) closeBtn.addEventListener('click', closeIdModal);
+  triggerBtns.forEach(btn => btn.addEventListener('click', openModal));
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  if (claimBtn) {
+    claimBtn.addEventListener('click', () => {
+      closeModal();
+    });
+  }
+
   modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeIdModal();
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
   });
 }
 
 /* --------------------------------------------------------------------------
-   7. LEAD FORM VALIDATION & HIGH-CONVERSION WHATSAPP REDIRECTION
+   9. MEMBERSHIP LEAD FORM (HIGH-CONVERSION WHATSAPP DISPATCH)
    -------------------------------------------------------------------------- */
 function initLeadForm() {
-  const form = document.getElementById('membershipLeadForm');
-  const successModal = document.getElementById('successModal');
-  const closeSuccessBtn = document.getElementById('closeSuccessModal');
-  const successSummary = document.getElementById('successSummaryDetails');
-  const waDirectBtn = document.getElementById('whatsappConfirmBtn');
-
+  const form = document.getElementById('hrciLeadForm');
   if (!form) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = form.querySelector('[name="full_name"]').value.trim();
-    const phone = form.querySelector('[name="whatsapp_number"]').value.trim();
-    const city = form.querySelector('[name="city"]').value.trim();
-    const membershipType = form.querySelector('[name="membership_type"]').value;
-    const profession = form.querySelector('[name="profession"]').value.trim();
+    const fullName = document.getElementById('fullName').value.trim();
+    const whatsappNumber = document.getElementById('whatsappNumber').value.trim();
+    const cityState = document.getElementById('cityState').value.trim();
+    const membershipType = document.getElementById('membershipType').value;
+    const profession = document.getElementById('profession').value.trim();
 
-    if (!name || name.length < 3) {
+    if (!fullName || fullName.length < 3) {
       alert('कृपया अपना पूरा नाम दर्ज करें (Please enter your full name).');
       return;
     }
 
-    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    const cleanPhone = whatsappNumber.replace(/[^0-9]/g, '');
     if (cleanPhone.length < 10) {
       alert('कृपया 10 अंकों का वैध व्हाट्सएप नंबर दर्ज करें (Please enter a valid 10-digit WhatsApp number).');
       return;
     }
 
-    if (!city) {
-      alert('कृपया अपना शहर / जिला दर्ज करें (Please enter your City/District).');
+    if (!cityState) {
+      alert('कृपया अपना शहर एवं राज्य दर्ज करें (Please enter your City & State).');
       return;
     }
 
     if (!membershipType) {
-      alert('कृपया सदस्यता का प्रकार चुनें (Please select Membership Type).');
+      alert('कृपया सदस्यता प्रकार का चयन करें (Please select a Membership Type).');
       return;
     }
 
-    // Submit state
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalBtnText = submitBtn.innerHTML;
+    const originalText = submitBtn.innerHTML;
     submitBtn.disabled = true;
-    submitBtn.innerHTML = `प्रोसेसिंग (Processing)...`;
+    submitBtn.innerHTML = `<span>पंजीकरण जारी है... (Processing)</span>`;
 
     setTimeout(() => {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = originalBtnText;
+      submitBtn.innerHTML = originalText;
 
       const randomAppId = 'HRCI-' + Math.floor(100000 + Math.random() * 900000);
 
-      if (successSummary) {
-        successSummary.innerHTML = `
-          <div style="background:#F1F5F9;padding:14px;border-radius:10px;margin-bottom:14px;text-align:left;font-size:0.82rem;">
-            <p><strong>आवेदन क्रमांक (App ID):</strong> <span style="color:#0B3D91;font-weight:700;">${randomAppId}</span></p>
-            <p><strong>आवेदक का नाम (Name):</strong> ${escapeHtml(name)}</p>
-            <p><strong>व्हाट्सएप नंबर (WhatsApp):</strong> +91 ${cleanPhone.slice(-10)}</p>
-            <p><strong>सदस्यता (Plan):</strong> ${escapeHtml(membershipType)}</p>
-            <p><strong>शहर (City):</strong> ${escapeHtml(city)}</p>
-            <p><strong>पेशा (Profession):</strong> ${escapeHtml(profession || 'Social Reformer')}</p>
-          </div>
-        `;
-      }
+      // Pre-filled WhatsApp message directly to HRCI Official Desk (+91 95944 41319)
+      const waMsg = encodeURIComponent(
+        `🏛️ *HRCI OFFICIAL MEMBERSHIP APPLICATION*\n\n` +
+        `• *Application ID:* ${randomAppId}\n` +
+        `• *Name:* ${fullName}\n` +
+        `• *WhatsApp:* +91 ${cleanPhone.slice(-10)}\n` +
+        `• *City / State:* ${cityState}\n` +
+        `• *Membership Plan:* ${membershipType}\n` +
+        `• *Profession:* ${profession || 'Citizen Advocate'}\n\n` +
+        `Namaste HRCI Team, I have submitted my registration details online. Please provide verification steps & official PVC ID card details. Thank you!`
+      );
 
-      if (waDirectBtn) {
-        const waMsg = encodeURIComponent(
-          `नमस्ते HRCI,\nमैंने वेबसाइट से सदस्यता हेतु आवेदन किया है:\n\n` +
-          `• आवेदन ID: ${randomAppId}\n` +
-          `• नाम: ${name}\n` +
-          `• मोबाइल: ${cleanPhone}\n` +
-          `• शहर: ${city}\n` +
-          `• सदस्यता प्लान: ${membershipType}\n\n` +
-          `कृपया मुझे आगे की प्रक्रिया एवं ID कार्ड संबंधी जानकारी प्रदान करें। धन्यवाद!`
-        );
-        waDirectBtn.href = `https://wa.me/919876543210?text=${waMsg}`;
-      }
+      // Open WhatsApp in new tab
+      window.open(`https://wa.me/919594441319?text=${waMsg}`, '_blank');
 
-      if (successModal) {
-        successModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
+      alert(
+        `🎉 आवेदन सफलतापूर्वक प्राप्त हुआ! (APPLICATION RECEIVED)\n\n` +
+        `• आवेदन क्रमांक: ${randomAppId}\n` +
+        `• आवेदक का नाम: ${fullName}\n` +
+        `• चयनित सदस्यता: ${membershipType}\n\n` +
+        `HRCI सदस्यता डेस्क (+91 95944 41319) से आपको व्हाट्सएप पर तत्काल पुष्टि प्राप्त होगी। धन्यवाद!`
+      );
 
       form.reset();
     }, 600);
   });
-
-  if (closeSuccessBtn && successModal) {
-    closeSuccessBtn.addEventListener('click', () => {
-      successModal.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-    successModal.addEventListener('click', (e) => {
-      if (e.target === successModal) {
-        successModal.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
-  }
 }
 
 /* --------------------------------------------------------------------------
-   8. FAQ ACCORDION FUNCTIONALITY
+   10. FAQ ACCORDION FUNCTIONALITY
    -------------------------------------------------------------------------- */
 function initFaqAccordion() {
   const faqItems = document.querySelectorAll('.faq-item');
@@ -456,13 +490,16 @@ function initFaqAccordion() {
     const questionBtn = item.querySelector('.faq-question-btn');
     const answerCollapse = item.querySelector('.faq-answer-collapse');
 
+    if (!questionBtn || !answerCollapse) return;
+
     questionBtn.addEventListener('click', () => {
       const isActive = item.classList.contains('active');
 
-      faqItems.forEach(otherItem => {
-        if (otherItem !== item) {
-          otherItem.classList.remove('active');
-          const otherCollapse = otherItem.querySelector('.faq-answer-collapse');
+      // Close all other accordions
+      faqItems.forEach(other => {
+        if (other !== item) {
+          other.classList.remove('active');
+          const otherCollapse = other.querySelector('.faq-answer-collapse');
           if (otherCollapse) otherCollapse.style.maxHeight = null;
         }
       });
@@ -479,23 +516,23 @@ function initFaqAccordion() {
 }
 
 /* --------------------------------------------------------------------------
-   9. SOCIAL PROOF LIVE TOAST
+   11. LIVE SOCIAL PROOF TOAST
    -------------------------------------------------------------------------- */
 function initSocialProofToast() {
   const toast = document.getElementById('socialProofToast');
   const toastName = document.getElementById('toastName');
   const toastAction = document.getElementById('toastAction');
-  const toastTime = document.getElementById('toastTime');
-  const toastClose = document.getElementById('toastClose');
+  const toastCloseBtn = document.getElementById('toastCloseBtn');
 
   if (!toast) return;
 
   const joinEvents = [
-    { name: 'Adv. Amit Sharma (Jaipur)', plan: 'Joined Lifetime Membership', time: '2 मिनट पहले (2m ago)' },
-    { name: 'Dr. Neha Verma (Lucknow)', plan: 'Joined Executive Leadership Wing', time: '4 मिनट पहले (4m ago)' },
-    { name: 'Rohan Deshmukh (Pune)', plan: 'Joined Annual Membership', time: 'Just now' },
-    { name: 'Adv. Suresh Patel (Ahmedabad)', plan: 'Joined Lifetime Membership', time: '7 मिनट पहले (7m ago)' },
-    { name: 'Kavita Kumari (Patna)', plan: 'Received Official Membership ID Card', time: '11 मिनट पहले (11m ago)' }
+    { name: 'Adv. Amit Sharma (Jaipur)', action: 'Joined Lifetime Membership • 2 मिनट पहले' },
+    { name: 'Dr. Neha Verma (Lucknow)', action: 'Registered for Executive Wing • 4 मिनट पहले' },
+    { name: 'Rohan Deshmukh (Pune)', action: 'Joined Annual Membership • अभी-अभी' },
+    { name: 'Adv. Suresh Patel (Ahmedabad)', action: 'Joined Lifetime Membership • 7 मिनट पहले' },
+    { name: 'Kavita Kumari (Patna)', action: 'Received Official PVC ID Card • 11 मिनट पहले' },
+    { name: 'Manish Rawat (Dehradun)', action: 'Joined Lifetime Membership • 14 मिनट पहले' }
   ];
 
   let eventIndex = 0;
@@ -503,30 +540,29 @@ function initSocialProofToast() {
   function showNextToast() {
     const current = joinEvents[eventIndex];
     if (toastName) toastName.textContent = current.name;
-    if (toastAction) toastAction.textContent = current.plan;
-    if (toastTime) toastTime.textContent = current.time;
+    if (toastAction) toastAction.textContent = current.action;
 
     toast.classList.add('show');
 
     setTimeout(() => {
       toast.classList.remove('show');
-    }, 5000);
+    }, 4500);
 
     eventIndex = (eventIndex + 1) % joinEvents.length;
   }
 
-  setTimeout(showNextToast, 4000);
-  setInterval(showNextToast, 14000);
+  setTimeout(showNextToast, 3500);
+  setInterval(showNextToast, 13000);
 
-  if (toastClose) {
-    toastClose.addEventListener('click', () => {
+  if (toastCloseBtn) {
+    toastCloseBtn.addEventListener('click', () => {
       toast.classList.remove('show');
     });
   }
 }
 
 /* --------------------------------------------------------------------------
-   10. BACK TO TOP BUTTON
+   12. BACK TO TOP BUTTON
    -------------------------------------------------------------------------- */
 function initBackToTop() {
   const backToTopBtn = document.getElementById('backToTopBtn');
@@ -549,7 +585,7 @@ function initBackToTop() {
 }
 
 /* --------------------------------------------------------------------------
-   11. BUTTON RIPPLE EFFECT
+   13. BUTTON RIPPLE EFFECT
    -------------------------------------------------------------------------- */
 function initButtonRipples() {
   const buttons = document.querySelectorAll('.btn');
@@ -575,65 +611,4 @@ function initButtonRipples() {
       }, 600);
     });
   });
-}
-
-/* --------------------------------------------------------------------------
-   12. MEMBER ID VERIFICATION SEARCH
-   -------------------------------------------------------------------------- */
-function initIdVerificationSearch() {
-  const searchBtn = document.getElementById('btnVerifyIdSearch');
-  const searchInput = document.getElementById('memberIdInput');
-
-  if (searchBtn && searchInput) {
-    searchBtn.addEventListener('click', () => {
-      const val = searchInput.value.trim();
-      if (!val) {
-        alert('कृपया सदस्य आईडी दर्ज करें (Please enter Member ID).');
-        return;
-      }
-
-      searchBtn.disabled = true;
-      searchBtn.textContent = 'सत्यापन जारी...';
-
-      setTimeout(() => {
-        searchBtn.disabled = false;
-        searchBtn.textContent = 'Verify';
-        alert(
-          `✅ आधिकारिक सत्यापन सफल (VERIFIED OFFICIAL MEMBER)\n\n` +
-          `• सदस्य आईडी: ${val.toUpperCase()}\n` +
-          `• स्थिति: सक्रिय (Active Lifetime Member)\n` +
-          `• मानवाधिकार परिषद प्राधिकार: प्रमाणित (MCA Sec. 8 Compliant)\n` +
-          `• वैधता: आजीवन वैध (Valid Pan-India)`
-        );
-      }, 600);
-    });
-  }
-
-  // Standalone verify.html portal page form
-  const verifyForm = document.getElementById('verifyForm');
-  const verifyInput = document.getElementById('verifyInput');
-  const verifyResult = document.getElementById('verifyResult');
-  const resMemberId = document.getElementById('resMemberId');
-
-  if (verifyForm && verifyInput && verifyResult) {
-    verifyForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const val = verifyInput.value.trim();
-      if (resMemberId) resMemberId.textContent = val.toUpperCase();
-      verifyResult.classList.add('active');
-    });
-  }
-}
-
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/[&<>'"]/g, 
-    tag => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      "'": '&#39;',
-      '"': '&quot;'
-    }[tag] || tag)
-  );
 }
