@@ -3648,3 +3648,504 @@ ul, ol {
     margin: 10px auto 0;
   }
 }
+
+
+/* ==========================================================================
+   STANDALONE SPACIOUS SECTIONS & CONTACT DIRECTORY (BREATHING ROOM ARCHITECTURE)
+   ========================================================================== */
+
+.dedicated-section {
+  padding: 85px 0;
+  position: relative;
+  width: 100%;
+}
+
+.section-header-center {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 48px;
+}
+
+.section-tag-pill {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(11, 61, 145, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(11, 61, 145, 0.15);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.section-tag-pill.tag-red {
+  background: rgba(225, 29, 72, 0.08);
+  color: var(--cta-red);
+  border-color: rgba(225, 29, 72, 0.2);
+}
+
+.section-main-heading {
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.section-lead-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* SECTION 5: ABOUT HRCI */
+.about-section {
+  background: #FFFFFF;
+}
+
+.about-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.about-img-frame {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(11, 61, 145, 0.12);
+  border: 2px solid rgba(226, 232, 240, 0.8);
+}
+
+.about-main-img {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-slow);
+}
+
+.about-img-frame:hover .about-main-img {
+  transform: scale(1.03);
+}
+
+.about-experience-badge {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(11, 61, 145, 0.94);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  padding: 16px 22px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--gold-400);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.about-experience-badge .exp-num {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--gold-400);
+  line-height: 1;
+}
+
+.about-experience-badge .exp-text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #F8FAFC;
+}
+
+.about-sub-devanagari {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 16px;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+.about-lead-desc {
+  font-size: 0.98rem;
+  color: var(--text-main);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.about-sub-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+.about-pillars-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.about-pillar-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #F8FAFC;
+  border-radius: var(--radius-sm);
+  border: 1px solid #E2E8F0;
+  transition: all var(--transition-fast);
+}
+
+.about-pillar-item:hover {
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+  transform: translateY(-2px);
+}
+
+.about-pillar-item .pillar-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(11, 61, 145, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.about-pillar-item strong {
+  display: block;
+  font-size: 0.86rem;
+  color: var(--text-dark);
+}
+
+.about-pillar-item span {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.about-cta-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* SECTION 6: WHY JOIN HRCI */
+.why-join-section {
+  background: #F8FAFC;
+}
+
+.why-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.why-feature-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.why-feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(11, 61, 145, 0.1);
+  border-color: #BFDBFE;
+}
+
+.why-icon-bubble {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(22, 163, 74, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.why-feature-card h4 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+}
+
+.why-feature-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.why-cta-bottom {
+  text-align: center;
+}
+
+/* SECTION 7: VIDEOS & SECTION 8: TESTIMONIALS & SECTION 9: PLANS (SPACIOUS FULL WIDTH) */
+.videos-section {
+  background: #FFFFFF;
+}
+
+.videos-section .video-gallery-card {
+  margin: 0 auto;
+}
+
+.testimonials-section {
+  background: #F8FAFC;
+}
+
+.testimonials-section .testimonials-box {
+  margin: 0 auto;
+}
+
+.pricing-plans-section {
+  background: #FFFFFF;
+}
+
+.pricing-plans-section .pricing-cards-grid {
+  max-width: 1140px;
+  margin: 0 auto;
+  gap: 26px;
+}
+
+/* SECTION 10: REGISTRATION & PROCESS (SPACIOUS 2-COL ENGINE) */
+.registration-section {
+  background: #F8FAFC;
+}
+
+.registration-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: flex-start;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.reg-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.reg-left-col .simple-process-banner-card {
+  margin: 0;
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid #E2E8F0;
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+
+.reg-left-col .process-banner-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.reg-left-col .id-card-sample-teaser {
+  margin: 0;
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1.5px dashed #F59E0B;
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+}
+
+.reg-trust-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trust-pill-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  background: #FFFFFF;
+  border-radius: var(--radius-sm);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.trust-pill-box strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-dark);
+}
+
+.trust-pill-box span {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.reg-right-col .lead-form-card {
+  position: static;
+  margin: 0;
+  box-shadow: 0 20px 45px rgba(11, 61, 145, 0.12);
+  border: 1px solid #E2E8F0;
+}
+
+/* SECTION 15: DEDICATED CONTACT DIRECTORY (AT THE BOTTOM) */
+.contact-directory-section {
+  background: #FFFFFF;
+  border-top: 1px solid #E2E8F0;
+}
+
+.contact-grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.contact-card-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 28px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all var(--transition-normal);
+}
+
+.contact-card-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(11, 61, 145, 0.08);
+  border-color: #BFDBFE;
+  background: #FFFFFF;
+}
+
+.contact-card-box.contact-card-highlight {
+  background: #FFFBEB;
+  border-color: #FDE68A;
+}
+
+.contact-card-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(11, 61, 145, 0.08);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.icon-circle-red {
+  background: rgba(225, 29, 72, 0.1) !important;
+  color: var(--cta-red) !important;
+}
+
+.contact-card-box h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+}
+
+.contact-card-address {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  line-height: 1.55;
+  margin-bottom: 14px;
+  flex-grow: 1;
+}
+
+.contact-card-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(100, 116, 139, 0.08);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.contact-quick-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.contact-quick-buttons .btn {
+  flex: 1;
+  font-size: 0.75rem;
+  padding: 7px 10px;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT FOR STANDALONE SECTIONS
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .about-grid-2col {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .about-main-img {
+    height: 360px;
+  }
+
+  .why-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .registration-grid-2col {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid-4col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dedicated-section {
+    padding: 55px 0;
+  }
+
+  .section-main-heading {
+    font-size: 1.85rem;
+  }
+
+  .about-main-img {
+    height: 280px;
+  }
+
+  .about-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid-4col {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-plans-section .pricing-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
