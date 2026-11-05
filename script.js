@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initSmoothScroll();
   initScrollReveal();
+  initHeroParticles();
   initHero3DParallax();
   init3DCardTilt();
   initCounters();
@@ -659,32 +660,142 @@ function initHero3DParallax() {
   const heroSection = document.querySelector('.hero-section');
   const heroCard = document.querySelector('.hero-composition-card');
   const heroRays = document.querySelector('.hero-light-rays');
+  const goldCircle = document.querySelector('.glow-circle-gold-main');
+  const trophyCircle = document.querySelector('.glow-circle-trophy');
   if (!heroSection || !heroCard) return;
 
   if (window.matchMedia('(pointer: fine)').matches && window.innerWidth > 992) {
+    let ticking = false;
+
     heroSection.addEventListener('mousemove', (e) => {
-      const rect = heroSection.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const rect = heroSection.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-      const tiltX = -y * 12;
-      const tiltY = x * 15;
-      const moveX = x * 18;
-      const moveY = y * 14;
+          const tiltX = -y * 10;
+          const tiltY = x * 12;
+          const moveX = x * 16;
+          const moveY = y * 12;
 
-      heroCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translate3d(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px, 15px)`;
-      if (heroRays) {
-        heroRays.style.transform = `translate3d(${-moveX * 1.5}px, ${-moveY * 1.5}px, 0)`;
+          heroCard.style.transform = `perspective(1100px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translate3d(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px, 18px)`;
+          if (heroRays) {
+            heroRays.style.transform = `translate3d(${-moveX * 1.4}px, ${-moveY * 1.4}px, 0)`;
+          }
+          if (goldCircle) {
+            goldCircle.style.transform = `translate3d(${-moveX * 0.9}px, ${-moveY * 0.9}px, 0)`;
+          }
+          if (trophyCircle) {
+            trophyCircle.style.transform = `translate3d(${moveX * 1.2}px, ${moveY * 1.2}px, 0)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     });
 
     heroSection.addEventListener('mouseleave', () => {
-      heroCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)';
-      if (heroRays) {
-        heroRays.style.transform = 'translate3d(0, 0, 0)';
-      }
+      heroCard.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)';
+      if (heroRays) heroRays.style.transform = 'translate3d(0, 0, 0)';
+      if (goldCircle) goldCircle.style.transform = 'translate3d(0, 0, 0)';
+      if (trophyCircle) trophyCircle.style.transform = 'translate3d(0, 0, 0)';
     });
   }
+}
+
+/* --------------------------------------------------------------------------
+   15b. HERO LUXURY GOLD DUST PARTICLE ENGINE (60FPS CANVAS WITH ZERO JITTER)
+   -------------------------------------------------------------------------- */
+function initHeroParticles() {
+  const canvas = document.getElementById('heroParticles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width, height;
+  let particles = [];
+  const PARTICLE_COUNT = 36;
+  let animId = null;
+  let isVisible = true;
+
+  function resize() {
+    const parent = canvas.parentElement;
+    width = canvas.width = parent.offsetWidth;
+    height = canvas.height = parent.offsetHeight;
+  }
+
+  function createParticle(initialY = false) {
+    return {
+      x: Math.random() * (width || 1200),
+      y: initialY ? Math.random() * (height || 700) : (height || 700) + Math.random() * 20,
+      size: Math.random() * 2.2 + 0.9,
+      speedX: (Math.random() - 0.5) * 0.35,
+      speedY: -(Math.random() * 0.42 + 0.18),
+      opacity: Math.random() * 0.55 + 0.15,
+      pulseSpeed: Math.random() * 0.025 + 0.01,
+      pulseAngle: Math.random() * Math.PI * 2,
+      color: Math.random() > 0.4 ? '246, 176, 0' : '255, 230, 110'
+    };
+  }
+
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(createParticle(true));
+    }
+  }
+
+  function loop() {
+    if (!isVisible) {
+      animId = null;
+      return;
+    }
+
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.speedX;
+      p.y += p.speedY;
+      p.pulseAngle += p.pulseSpeed;
+
+      const alpha = p.opacity * (0.65 + 0.35 * Math.sin(p.pulseAngle));
+
+      if (p.y < -15) {
+        particles[i] = createParticle(false);
+        continue;
+      }
+      if (p.x < -10) p.x = width + 5;
+      if (p.x > width + 10) p.x = -5;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color}, ${Math.max(0, Math.min(1, alpha)).toFixed(3)})`;
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = `rgba(${p.color}, 0.5)`;
+      ctx.fill();
+    }
+
+    animId = requestAnimationFrame(loop);
+  }
+
+  init();
+  loop();
+
+  window.addEventListener('resize', resize, { passive: true });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !animId) {
+        loop();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  observer.observe(canvas.parentElement);
 }
 
 /* --------------------------------------------------------------------------

@@ -719,16 +719,34 @@ ul, ol {
 /* ==========================================================================
    SECTION 2: FULL-SCREEN HERO (100VH / RICH COMPOSITION)
    ========================================================================== */
+
 .hero-section {
   position: relative;
-  background: var(--bg-dark-hero);
+  background: #040E20;
+  background: 
+    radial-gradient(circle at 80% 32%, rgba(246, 176, 0, 0.17) 0%, transparent 52%),
+    radial-gradient(circle at 18% 68%, rgba(15, 91, 216, 0.32) 0%, transparent 58%),
+    radial-gradient(ellipse at 50% 0%, rgba(0, 168, 255, 0.16) 0%, transparent 68%),
+    linear-gradient(180deg, #030C1C 0%, #06152F 45%, #051A3E 100%);
   color: var(--text-white);
-  padding: 45px 0 80px 0;
-  min-height: calc(100vh - var(--navbar-height) - 32px);
+  padding: 38px 0 42px 0;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
+  perspective: 1200px;
+}
+
+.hero-particles-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .hero-bg-overlay {
@@ -738,30 +756,85 @@ ul, ol {
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(circle at 82% 25%, rgba(248, 180, 0, 0.18) 0%, transparent 45%),
-    radial-gradient(circle at 10% 70%, rgba(0, 86, 214, 0.3) 0%, transparent 50%);
+    radial-gradient(circle at 84% 28%, rgba(246, 176, 0, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 12% 72%, rgba(0, 86, 214, 0.28) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
 }
 
 .hero-light-rays {
   position: absolute;
-  top: -40%;
-  right: 15%;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(255, 230, 102, 0.12) 0%, rgba(11, 61, 145, 0) 70%);
+  top: -25%;
+  right: 10%;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 230, 102, 0.16) 0%, rgba(11, 61, 145, 0.05) 55%, transparent 75%);
   pointer-events: none;
   z-index: 1;
+  animation: light-ray-shift 14s ease-in-out infinite alternate;
+}
+
+@keyframes light-ray-shift {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.8; }
+  100% { transform: rotate(3.5deg) scale(1.06); opacity: 1; }
+}
+
+/* Atmospheric 3D Blurred Gradient Glow Circles */
+.hero-glow-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(65px);
+  z-index: 1;
+  will-change: transform, opacity;
+}
+
+.glow-circle-gold-main {
+  width: 580px;
+  height: 580px;
+  right: 8%;
+  top: 18%;
+  background: radial-gradient(circle, rgba(246, 176, 0, 0.22) 0%, rgba(217, 119, 6, 0.08) 55%, transparent 75%);
+  animation: pulse-glow-gold 7s ease-in-out infinite alternate;
+}
+
+.glow-circle-blue-ambient {
+  width: 680px;
+  height: 680px;
+  left: -6%;
+  bottom: 6%;
+  background: radial-gradient(circle, rgba(15, 91, 216, 0.35) 0%, rgba(11, 61, 145, 0.1) 60%, transparent 80%);
+}
+
+.glow-circle-trophy {
+  width: 320px;
+  height: 320px;
+  right: 2%;
+  top: 16%;
+  background: radial-gradient(circle, rgba(255, 220, 100, 0.28) 0%, rgba(246, 176, 0, 0.1) 50%, transparent 75%);
+  filter: blur(40px);
+  animation: pulse-trophy 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow-gold {
+  0% { transform: scale(0.95); opacity: 0.75; }
+  100% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes pulse-trophy {
+  0% { transform: scale(0.92); opacity: 0.7; }
+  100% { transform: scale(1.1); opacity: 1; }
 }
 
 .hero-container {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1.05fr 1.35fr;
   align-items: center;
-  gap: 36px;
+  gap: 40px;
+  width: 100%;
+  max-width: 1380px;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -777,46 +850,61 @@ ul, ol {
   align-items: center;
   gap: 6px;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 4px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 5px 16px;
   border-radius: var(--radius-full);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #FFE066;
   width: fit-content;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .hero-title {
-  font-size: 3.1rem;
-  font-weight: 800;
-  line-height: 1.12;
-  color: #FFFFFF;
+  font-size: clamp(52px, 5.5vw, 80px);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -1.4px;
+  margin: 0;
 }
 
-.hero-title .highlight {
+.hero-title-white {
   display: block;
-  background: linear-gradient(135deg, #FFFFFF 0%, #FFE58F 40%, #F5B82E 100%);
+  color: #FFFFFF;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.hero-title .gold-gradient-text {
+  display: block;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFF3B0 20%, #F6B000 60%, #E69500 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 10px rgba(248, 180, 0, 0.35));
+  color: transparent;
+  text-shadow: none !important;
+  filter: drop-shadow(0 4px 18px rgba(246, 176, 0, 0.55));
 }
 
 .hero-gold-call-banner {
-  background: var(--gold-gradient);
-  color: var(--primary-dark);
-  font-size: 1.3rem;
+  background: linear-gradient(135deg, #FFE066 0%, #F6B000 50%, #D97706 100%);
+  color: #061A3A;
+  font-size: clamp(1.22rem, 1.8vw, 1.45rem);
   font-weight: 800;
-  padding: 6px 18px;
+  padding: 6px 20px;
   border-radius: var(--radius-xs);
   display: inline-block;
   align-self: flex-start;
-  box-shadow: 0 4px 16px rgba(248, 180, 0, 0.4);
+  box-shadow: 0 6px 22px rgba(246, 176, 0, 0.38);
+  letter-spacing: -0.2px;
 }
 
 .hero-tagline {
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: #E2E8F0;
-  line-height: 1.45;
+  line-height: 1.6;
+  max-width: 620px;
+  font-weight: 500;
 }
 
 .hero-checklist {
@@ -829,8 +917,8 @@ ul, ol {
 .hero-check-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.86rem;
+  gap: 7px;
+  font-size: 0.88rem;
   font-weight: 600;
   color: #F8FAFC;
 }
@@ -854,72 +942,260 @@ ul, ol {
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
-.hero-trust-badges {
-  display: flex;
+.hero-cta-subgroup {
+  display: contents;
+}
+
+/* Primary Button: Glossy Red, 3D pressed, hover glow, scale, arrow slide */
+.btn-hero-primary-red {
+  display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.74rem;
-  color: #94A3B8;
-  margin-top: 4px;
+  background: linear-gradient(180deg, #FF384D 0%, #D90429 55%, #A6001B 100%);
+  color: #FFFFFF !important;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 14px 28px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 8px 24px rgba(217, 4, 41, 0.5), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease;
 }
 
+.btn-hero-primary-red:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(217, 4, 41, 0.65), 0 0 35px rgba(255, 56, 77, 0.4);
+}
+
+.btn-hero-primary-red:active {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: 0 4px 14px rgba(217, 4, 41, 0.5);
+}
+
+.btn-hero-primary-red .btn-arrow-slide {
+  display: inline-block;
+  transition: transform 0.25s ease;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.btn-hero-primary-red:hover .btn-arrow-slide {
+  transform: translateX(5px);
+}
+
+.btn-hero-primary-red::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -90%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  animation: btn-shimmer 4.5s ease-in-out infinite;
+}
+
+/* Secondary Button: Premium WhatsApp Green Glass */
+.btn-hero-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(37, 211, 102, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #FFFFFF !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 13px 24px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid rgba(37, 211, 102, 0.65);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.25);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-hero-whatsapp:hover {
+  background: #25D366;
+  color: #FFFFFF !important;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.55);
+  border-color: #25D366;
+}
+
+.btn-hero-whatsapp:active {
+  transform: translateY(1px);
+}
+
+/* Third Button: Transparent Glass with Golden Border & Animated Play Icon */
+.btn-hero-video {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #FFE066 !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 13px 22px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid rgba(246, 176, 0, 0.6);
+  box-shadow: 0 4px 18px rgba(246, 176, 0, 0.18);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-hero-video:hover {
+  background: rgba(246, 176, 0, 0.2);
+  color: #FFFFFF !important;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(246, 176, 0, 0.35);
+  border-color: rgba(246, 176, 0, 0.9);
+}
+
+.btn-hero-video:active {
+  transform: translateY(1px);
+}
+
+.btn-hero-video .play-icon-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(246, 176, 0, 0.25);
+  color: #FFE066;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.btn-hero-video:hover .play-icon-glow {
+  transform: scale(1.2);
+  background: rgba(246, 176, 0, 0.45);
+}
+
+/* Trust Badges Strip: Glassmorphism Pill with Refined Icons & Spacing */
+.hero-trust-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 9px 24px;
+  margin-top: 14px;
+  width: fit-content;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #E2E8F0;
+  white-space: nowrap;
+}
+
+.hero-trust-item svg {
+  color: var(--gold-400);
+  flex-shrink: 0;
+}
+
+.hero-trust-separator {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Right Visual Composition: 3D Golden Artwork, Enlarged by ~40%, Seamless Zero-Artifact Blend */
 .hero-visual-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 440px;
-}
-
-.hero-flag-glow {
-  position: absolute;
-  top: 15px;
-  left: 20px;
-  width: 190px;
-  height: 115px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  transform: rotate(-6deg);
-  z-index: 2;
-}
-
-.hero-flag-glow img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
-.hero-justice-statue {
+.hero-composition-card {
   position: relative;
+  width: 100%;
+  max-width: 880px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float-3d-statue-luxury 7s ease-in-out infinite;
+  transform-style: preserve-3d;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, filter;
   z-index: 3;
-  width: 320px;
-  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.65));
-  animation: float-gentle 6s ease-in-out infinite;
 }
 
-@keyframes float-gentle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.hero-award-badge {
+.hero-art-backlight {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 150px;
-  z-index: 4;
-  filter: drop-shadow(0 10px 22px rgba(248, 180, 0, 0.45));
-  animation: float-reverse 5s ease-in-out infinite;
+  width: 85%;
+  height: 85%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(246, 176, 0, 0.2) 0%, rgba(15, 91, 216, 0.15) 50%, transparent 75%);
+  filter: blur(50px);
+  z-index: 1;
+  pointer-events: none;
 }
 
-@keyframes float-reverse {
-  0%, 100% { transform: translateY(0) rotate(1deg); }
-  50% { transform: translateY(8px) rotate(-2deg); }
+.hero-trophy-glow {
+  position: absolute;
+  right: 5%;
+  top: 12%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.35) 0%, rgba(246, 176, 0, 0.1) 60%, transparent 80%);
+  filter: blur(35px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-real-statue-img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 97%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 97%, transparent 100%);
+  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 35px rgba(246, 176, 0, 0.3));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.hero-composition-card:hover .hero-real-statue-img {
+  transform: scale(1.02);
+}
+
+@keyframes float-3d-statue-luxury {
+  0%, 100% {
+    transform: translateY(0px) rotateY(0deg) rotateX(0deg);
+    filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 25px rgba(246, 176, 0, 0.25));
+  }
+  50% {
+    transform: translateY(-16px) rotateY(2deg) rotateX(1deg);
+    filter: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 50px rgba(246, 176, 0, 0.45));
+  }
 }
 
 /* Hero Scroll Indicator */
@@ -930,9 +1206,9 @@ ul, ol {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin-top: 30px;
+  margin-top: 24px;
   color: #94A3B8;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.5px;
   transition: color var(--transition-fast);
 }
@@ -965,6 +1241,148 @@ ul, ol {
   0% { transform: translate(-50%, 0); opacity: 1; }
   100% { transform: translate(-50%, 12px); opacity: 0; }
 }
+
+/* Hero Responsive Architecture */
+@media (max-width: 1200px) {
+  .hero-container {
+    grid-template-columns: 1fr 1.15fr;
+    gap: 30px;
+  }
+  .hero-title {
+    font-size: clamp(48px, 5.2vw, 68px);
+  }
+  .hero-composition-card {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 991px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+  .hero-content {
+    align-items: center;
+  }
+  .hero-gold-call-banner {
+    align-self: center;
+  }
+  .hero-checklist {
+    justify-content: center;
+  }
+  .hero-cta-group {
+    justify-content: center;
+  }
+  .hero-trust-badges {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-composition-card {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 16px 0 32px 0;
+    min-height: auto;
+  }
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+  .hero-content {
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-badge-pill {
+    font-size: 0.68rem;
+    padding: 4px 12px;
+  }
+  .hero-title {
+    font-size: clamp(32px, 8.5vw, 42px);
+    letter-spacing: -0.6px;
+    line-height: 1.08;
+  }
+  .hero-gold-call-banner {
+    font-size: 1.05rem;
+    padding: 5px 16px;
+    align-self: center;
+  }
+  .hero-tagline {
+    font-size: 0.92rem;
+    line-height: 1.4;
+    max-width: 92%;
+  }
+  .hero-checklist {
+    justify-content: center;
+    gap: 8px 12px;
+  }
+  .hero-check-item {
+    font-size: 0.78rem;
+  }
+  .hero-visual-wrapper {
+    min-height: auto;
+    width: 100%;
+    margin: 4px auto;
+  }
+  .hero-composition-card {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+  .hero-cta-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px;
+    gap: 8px;
+    margin: 4px auto 0 auto;
+  }
+  .btn-hero-primary-red {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 18px;
+    font-size: 0.92rem;
+  }
+  .hero-cta-subgroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+  .btn-hero-whatsapp,
+  .btn-hero-video {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .hero-trust-badges {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    padding: 8px 16px;
+    gap: 8px 14px;
+    width: fit-content;
+    max-width: 95%;
+    margin: 6px auto 0;
+  }
+  .hero-trust-item {
+    font-size: 0.72rem;
+  }
+  .hero-trust-separator {
+    display: inline-block;
+    height: 10px;
+  }
+}
+
 
 /* ==========================================================================
    SECTION 3: TRUST STATISTICS STRIP
@@ -3492,33 +3910,7 @@ ul, ol {
 }
 
 
-/* ==========================================================================
-   PRO SVG & AUTHENTIC 3D HERO COMPOSITION STYLING (ZERO AI ARTIFACTS)
-   ========================================================================== */
-
-.hero-composition-card {
-  position: relative;
-  width: 100%;
-  max-width: 620px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.55));
-  animation: float-gentle 7s ease-in-out infinite;
-  z-index: 3;
-}
-
-.hero-real-statue-img {
-  width: 100%;
-  height: auto;
-  max-height: 460px;
-  object-fit: contain;
-  transition: transform var(--transition-normal);
-}
-
-.hero-composition-card:hover .hero-real-statue-img {
-  transform: scale(1.025);
-}
+/* Unified Hero Styles Defined Above */
 
 /* Unified Inline SVG Precision */
 .ticker-svg {
@@ -3628,14 +4020,9 @@ ul, ol {
   fill: currentColor;
 }
 
-@media (max-width: 991px) {
-  .hero-composition-card {
-    max-width: 440px;
-    margin: 20px auto 0;
-  }
-}
+/* Media queries consolidated in Section 2 */
 
-@media (max-width: 768px) {
+/* (max-width: 768px) {
   .hero-composition-card {
     max-width: 360px;
     margin: 15px auto 0;
@@ -4189,30 +4576,7 @@ ul, ol {
   transform: translate(0, 0) scale(1);
 }
 
-/* 2. 3D Floating Statue with Ambient Golden Glow */
-.hero-composition-card {
-  position: relative;
-  width: 100%;
-  max-width: 620px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: float-3d-statue 6.5s ease-in-out infinite;
-  z-index: 3;
-  transform-style: preserve-3d;
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-@keyframes float-3d-statue {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-    filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 35px rgba(246, 176, 0, 0.3));
-  }
-  50% {
-    transform: translateY(-14px) rotate(0.8deg);
-    filter: drop-shadow(0 32px 65px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 55px rgba(246, 176, 0, 0.5));
-  }
-}
+/* 2. 3D Floating Statue Consolidated in Section 2 */
 
 /* 3. Luxury Button Shimmer Sweep */
 .btn-primary-red,
