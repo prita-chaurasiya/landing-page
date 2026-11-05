@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initMobileNav();
   initSmoothScroll();
+  initScrollReveal();
+  initHero3DParallax();
+  init3DCardTilt();
   initCounters();
   initTestimonialSlider();
   initPlanSelectors();
@@ -609,6 +612,105 @@ function initButtonRipples() {
       setTimeout(() => {
         ripple.remove();
       }, 600);
+    });
+  });
+}
+
+
+/* --------------------------------------------------------------------------
+   14. BUTTER-SMOOTH SCROLL-REVEAL ENGINE (VANILLA AOS ALTERNATIVE)
+   -------------------------------------------------------------------------- */
+function initScrollReveal() {
+  // Immediately reveal all above-the-fold hero elements
+  document.querySelectorAll('#home [data-aos]').forEach(el => {
+    el.classList.add('aos-animate');
+  });
+  const animatedElements = document.querySelectorAll('[data-aos]');
+  if (!animatedElements.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = parseInt(el.getAttribute('data-aos-delay') || '0', 10);
+        
+        if (delay > 0) {
+          setTimeout(() => {
+            el.classList.add('aos-animate');
+          }, delay);
+        } else {
+          el.classList.add('aos-animate');
+        }
+        observer.unobserve(el);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -40px 0px',
+    threshold: 0.1
+  });
+
+  animatedElements.forEach(el => observer.observe(el));
+}
+
+/* --------------------------------------------------------------------------
+   15. HERO 3D PARALLAX & AMBIENT DEPTH
+   -------------------------------------------------------------------------- */
+function initHero3DParallax() {
+  const heroSection = document.querySelector('.hero-section');
+  const heroCard = document.querySelector('.hero-composition-card');
+  const heroRays = document.querySelector('.hero-light-rays');
+  if (!heroSection || !heroCard) return;
+
+  if (window.matchMedia('(pointer: fine)').matches && window.innerWidth > 992) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      const tiltX = -y * 12;
+      const tiltY = x * 15;
+      const moveX = x * 18;
+      const moveY = y * 14;
+
+      heroCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translate3d(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px, 15px)`;
+      if (heroRays) {
+        heroRays.style.transform = `translate3d(${-moveX * 1.5}px, ${-moveY * 1.5}px, 0)`;
+      }
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      heroCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)';
+      if (heroRays) {
+        heroRays.style.transform = 'translate3d(0, 0, 0)';
+      }
+    });
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16. INTERACTIVE 3D CARD TILT WITH DYNAMIC REFLECTION
+   -------------------------------------------------------------------------- */
+function init3DCardTilt() {
+  if (!window.matchMedia('(pointer: fine)').matches || window.innerWidth < 992) return;
+
+  const tiltTargets = document.querySelectorAll('.pricing-card, .lead-form-card, .why-feature-card, .contact-card-box, .stat-card, .about-img-frame');
+
+  tiltTargets.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -5.5;
+      const rotateY = ((x - centerX) / centerX) * 5.5;
+
+      card.style.transform = `perspective(800px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px) scale3d(1.015, 1.015, 1.015)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)';
     });
   });
 }
