@@ -52,6 +52,7 @@ function initMobileNav() {
   const hamburger = document.getElementById('navHamburger');
   const drawerCloseBtn = document.getElementById('drawerCloseBtn');
   const navList = document.getElementById('navbarList');
+  const backdrop = document.getElementById('navDrawerBackdrop');
 
   if (!hamburger || !navList) return;
 
@@ -60,10 +61,12 @@ function initMobileNav() {
       hamburger.classList.remove('active');
       navList.classList.remove('open');
       document.body.classList.remove('drawer-open');
+      if (backdrop) backdrop.classList.remove('active');
     } else {
       const isOpen = navList.classList.toggle('open');
       hamburger.classList.toggle('active', isOpen);
       document.body.classList.toggle('drawer-open', isOpen);
+      if (backdrop) backdrop.classList.toggle('active', isOpen);
     }
   }
 
@@ -74,6 +77,13 @@ function initMobileNav() {
 
   if (drawerCloseBtn) {
     drawerCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu(true);
+    });
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleMenu(true);
     });
