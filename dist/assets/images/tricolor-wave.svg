@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" width="100%" height="100%">
+  <defs>
+    <linearGradient id="saffron" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF9933"/>
+      <stop offset="100%" stop-color="#FF7700"/>
+    </linearGradient>
+    <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#138808"/>
+      <stop offset="100%" stop-color="#0E6506"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Saffron Band -->
+  <path d="M 0,30 Q 300,90 600,45 T 1200,60 L 1200,40 Q 900,25 600,25 T 0,10 Z" fill="url(#saffron)" opacity="0.95"/>
+  <!-- White Band -->
+  <path d="M 0,50 Q 300,110 600,65 T 1200,80 L 1200,60 Q 900,45 600,45 T 0,30 Z" fill="url(#whiteGrad)" opacity="0.98"/>
+  <!-- Green Band -->
+  <path d="M 0,70 Q 300,130 600,85 T 1200,100 L 1200,80 Q 900,65 600,65 T 0,50 Z" fill="url(#greenGrad)" opacity="0.95"/>
+</svg>
+

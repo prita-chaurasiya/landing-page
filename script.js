@@ -6,6 +6,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
+  initRolePanelTabs();
+  initUnifiedContactForm();
   initMobileNav();
   initSmoothScroll();
   initScrollReveal();
@@ -823,5 +825,206 @@ function init3DCardTilt() {
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)';
     });
+  });
+}
+
+
+/* FAQ MODERN ACCORDION HANDLER */
+document.addEventListener('DOMContentLoaded', () => {
+  const modernFaqButtons = document.querySelectorAll('.faq-modern-btn');
+  modernFaqButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item-modern');
+      if (!item) return;
+      const answer = item.querySelector('.faq-modern-answer');
+      const icon = btn.querySelector('.faq-toggle-icon');
+      const isExpanded = item.classList.contains('active');
+
+      // Close all other items
+      document.querySelectorAll('.faq-item-modern').forEach(other => {
+        other.classList.remove('active');
+        const otherAns = other.querySelector('.faq-modern-answer');
+        const otherIco = other.querySelector('.faq-toggle-icon');
+        if (otherAns) otherAns.style.display = 'none';
+        if (otherIco) otherIco.textContent = '+';
+        const otherBtn = other.querySelector('.faq-modern-btn');
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      });
+
+      if (!isExpanded) {
+        item.classList.add('active');
+        if (answer) answer.style.display = 'block';
+        if (icon) icon.textContent = '✕';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+});
+
+
+/* --------------------------------------------------------------------------
+   17. HERO SHOWCASE 3D PARALLAX & RESTORED TILT FOR ALL SECTION CARDS
+   -------------------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  const heroSec = document.getElementById('home');
+  const heroCard = document.querySelector('.hero-composition-card');
+
+  if (heroSec && heroCard && window.innerWidth > 992) {
+    heroSec.addEventListener('mousemove', (e) => {
+      const rect = heroSec.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      const tiltX = -y * 14; // max 7 deg
+      const tiltY = x * 18;  // max 9 deg
+
+      heroCard.style.animation = 'none';
+      heroCard.style.transform = `perspective(1200px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateY(-8px) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    heroSec.addEventListener('mouseleave', () => {
+      heroCard.style.transform = '';
+      heroCard.style.animation = 'heroCardFloat3D 6s ease-in-out infinite alternate';
+    });
+  }
+
+  // Add 3D Tilt to all modern restructured cards
+  const modernCards = document.querySelectorAll('.focus-card-horizontal, .pricing-card-luxury, .contact-card-premium, .step-item-card, .testimonial-card-white');
+  modernCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      const rx = -y * 8;
+      const ry = x * 8;
+      card.style.transform = `perspective(800px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-8px) scale3d(1.015, 1.015, 1.015)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+});
+
+
+/* --------------------------------------------------------------------------
+   ROLE-BASED MEMBERSHIP PORTAL TABS SWITCHER (INTERACTIVE DEMO)
+   -------------------------------------------------------------------------- */
+function initRolePanelTabs() {
+  const tabs = document.querySelectorAll('.tabs-role-btn');
+  const panels = document.querySelectorAll('.role-panel-view');
+  if (!tabs.length || !panels.length) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetId = tab.getAttribute('data-tab');
+      tabs.forEach(t => {
+        const isCurrent = t === tab;
+        t.classList.toggle('is-active', isCurrent);
+        t.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
+      });
+      panels.forEach(panel => {
+        panel.classList.toggle('is-active', panel.id === `role-panel-${targetId}`);
+      });
+    });
+  });
+
+  // Connect CTA buttons to form plan selection (Dropdown & Radio)
+  document.querySelectorAll('[data-select-plan]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const planVal = btn.getAttribute('data-select-plan');
+      const planSelect = document.getElementById('u-plan');
+      if (planSelect) {
+        planSelect.value = planVal;
+        planSelect.dispatchEvent(new Event('change'));
+      }
+      const radio = document.querySelector(`input[name="membershipPlan"][value="${planVal}"]`);
+      if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change'));
+      }
+    });
+  });
+}
+
+
+/* --------------------------------------------------------------------------
+   UNIFIED CONTACT FORM & INDIAN PIN CODE AUTO-LOOKUP (cad42cf2.jpg)
+   -------------------------------------------------------------------------- */
+function initUnifiedContactForm() {
+  const form = document.getElementById('unifiedLeadForm');
+  if (!form) return;
+
+  const pinInput = document.getElementById('u-pin');
+  const districtInput = document.getElementById('u-district');
+  const stateInput = document.getElementById('u-state');
+  const statusEl = document.getElementById('unifiedFormStatus');
+
+  // Indian PIN code lookup (Free Postal API with offline state fallback)
+  if (pinInput) {
+    pinInput.addEventListener('input', async (e) => {
+      const pin = e.target.value.replace(/\D/g, '').slice(0, 6);
+      e.target.value = pin;
+
+      if (pin.length === 6) {
+        if (districtInput) districtInput.placeholder = 'Fetching district...';
+        if (stateInput) stateInput.placeholder = 'Fetching state...';
+
+        try {
+          const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+          const data = await res.json();
+          if (data && data[0] && data[0].Status === 'Success' && data[0].PostOffice && data[0].PostOffice[0]) {
+            const po = data[0].PostOffice[0];
+            if (districtInput) districtInput.value = po.District || '';
+            if (stateInput) stateInput.value = po.State || '';
+          }
+        } catch (err) {
+          // Silent fallback for offline
+          console.log('PIN lookup offline');
+        } finally {
+          if (districtInput) districtInput.placeholder = 'Auto from PIN or Enter District';
+          if (stateInput) stateInput.placeholder = 'Auto from PIN or Enter State';
+        }
+      }
+    });
+  }
+
+  // Submission handler via WhatsApp
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = (document.getElementById('u-name')?.value || '').trim();
+    const phone = (document.getElementById('u-phone')?.value || '').trim();
+    const role = document.getElementById('u-role')?.value || '';
+    const plan = document.getElementById('u-plan')?.value || '';
+    const district = (document.getElementById('u-district')?.value || '').trim();
+    const state = (document.getElementById('u-state')?.value || '').trim();
+    const msg = (document.getElementById('u-msg')?.value || '').trim();
+
+    if (!name || !phone || !role || !plan) {
+      if (statusEl) {
+        statusEl.className = 'unified-form-status is-error';
+        statusEl.textContent = 'Please fill in all required fields (Name, Phone, Role, and Plan).';
+      }
+      return;
+    }
+
+    const planNames = {
+      'lifetime': 'Lifetime Executive Member (₹5,500)',
+      'annual': 'Annual Active Member (₹1,500)',
+      'executive': 'Executive State Delegate (₹10,000)'
+    };
+    const selectedPlanName = planNames[plan] || plan;
+
+    // Compose official WhatsApp message
+    const waText = `*HRCI OFFICIAL MEMBERSHIP APPLICATION*%0A--------------------------------%0A*Name:* ${encodeURIComponent(name)}%0A*WhatsApp:* ${encodeURIComponent(phone)}%0A*Role:* ${encodeURIComponent(role)}%0A*Selected Plan:* ${encodeURIComponent(selectedPlanName)}%0A*District:* ${encodeURIComponent(district || 'N/A')}%0A*State:* ${encodeURIComponent(state || 'N/A')}%0A*Message:* ${encodeURIComponent(msg || 'Requesting membership ID & PVC card dispatch.')}%0A--------------------------------%0A_Sent via HRCI Official National Portal_`;
+
+    if (statusEl) {
+      statusEl.className = 'unified-form-status is-success';
+      statusEl.textContent = 'Redirecting to HRCI National Secretariat WhatsApp...';
+    }
+
+    setTimeout(() => {
+      window.open(`https://wa.me/919594441319?text=${waText}`, '_blank');
+    }, 400);
   });
 }

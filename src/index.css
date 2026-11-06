@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg-ivory: #FAF8F3;
+  --color-bg-white: #FFFFFF;
+  --color-navy: #12275A;
+  --color-navy-dark: #0C1C40;
+  --color-navy-light: #1E3F8C;
+  --color-gold-start: #C9971C;
+  --color-gold-end: #E8BE55;
+  --color-text-body: #475569;
+  --color-border-card: #ECE6D8;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+  background-color: #FAF8F3;
+  color: #475569;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F3;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9971C;
+  border-radius: 9999px;
+  border: 2px solid #FAF8F3;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #12275A;
+}
+
+/* Primary Gold Button with Subtle Luxury Shine Sweep */
+.btn-gold-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #C9971C 0%, #E8BE55 100%);
+  color: #12275A;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-gold-primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  transition: all 0.65s ease;
+}
+
+.btn-gold-primary:hover::after {
+  left: 125%;
+}
+
+.btn-gold-primary:hover {
+  box-shadow: 0 8px 24px rgba(201, 151, 28, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Outlined Navy Button */
+.btn-navy-outline {
+  border: 2px solid #12275A;
+  color: #12275A;
+  background-color: transparent;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.btn-navy-outline:hover {
+  background-color: #12275A;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(18, 39, 90, 0.15);
+}
+
+/* Standard White Card Specification */
+.white-card {
+  background-color: #FFFFFF;
+  border: 1px solid #ECE6D8;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(18, 39, 90, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.white-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 35px rgba(18, 39, 90, 0.12);
+}
+
+/* Featured Pricing Card (Lifetime Membership) */
+.featured-pricing-card {
+  background-color: #FFFFFF;
+  border: 2px solid #C9971C;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(201, 151, 28, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.featured-pricing-card:hover {
+  box-shadow: 0 16px 42px rgba(201, 151, 28, 0.25);
+}
+
+/* Dotted Gold Timeline Line for Process Section */
+.gold-dotted-line {
+  border-top: 2px dashed #C9971C;
+}
+
+/* Respect Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

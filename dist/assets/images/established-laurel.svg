@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 90" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldLaurel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE79A"/>
+      <stop offset="30%" stop-color="#F5B82E"/>
+      <stop offset="70%" stop-color="#B8860B"/>
+      <stop offset="100%" stop-color="#7B5600"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left Laurel Wreath Branch -->
+  <g fill="url(#goldLaurel)">
+    <path d="M 38,45 C 34,30 38,18 48,10 C 47,15 47,22 51,26 C 43,30 39,38 38,45 Z"/>
+    <path d="M 36,48 C 34,60 38,72 48,80 C 47,75 47,68 51,64 C 43,60 39,54 36,48 Z"/>
+    <path d="M 32,46 C 30,38 33,30 40,24 C 38,28 39,34 43,37 C 37,40 34,44 32,46 Z"/>
+    <path d="M 32,48 C 30,56 33,64 40,70 C 38,66 39,60 43,57 C 37,54 34,50 32,48 Z"/>
+  </g>
+
+  <!-- Right Laurel Wreath Branch -->
+  <g fill="url(#goldLaurel)">
+    <path d="M 162,45 C 166,30 162,18 152,10 C 153,15 153,22 149,26 C 157,30 161,38 162,45 Z"/>
+    <path d="M 164,48 C 166,60 162,72 152,80 C 153,75 153,68 149,64 C 157,60 161,54 164,48 Z"/>
+    <path d="M 168,46 C 170,38 167,30 160,24 C 162,28 161,34 157,37 C 163,40 166,44 168,46 Z"/>
+    <path d="M 168,48 C 170,56 167,64 160,70 C 162,66 161,60 157,57 C 163,54 166,50 168,48 Z"/>
+  </g>
+
+  <!-- Laurel Stem Arcs -->
+  <path d="M 46,14 C 28,34 28,60 46,78" fill="none" stroke="url(#goldLaurel)" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 154,14 C 172,34 172,60 154,78" fill="none" stroke="url(#goldLaurel)" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Center Text -->
+  <text x="100" y="38" fill="#1F2937" font-family="'Poppins', sans-serif" font-weight="700" font-size="15" text-anchor="middle" letter-spacing="0.5">
+    Established
+  </text>
+  <text x="100" y="60" fill="#061A40" font-family="'Poppins', sans-serif" font-weight="800" font-size="19" text-anchor="middle" letter-spacing="-0.3">
+    11 Jan 2013
+  </text>
+</svg>
+
