@@ -8246,12 +8246,14 @@ h1, h2, h3, h4, h5, h6 {
   position: relative !important;
   border-radius: 20px !important;
   overflow: hidden !important;
+  background: #f1f5f9 !important;
 }
 
 .about-main-photo {
   width: 100% !important;
-  height: 320px !important;
+  height: 380px !important;
   object-fit: cover !important;
+  object-position: center 15% !important;
   display: block !important;
 }
 
