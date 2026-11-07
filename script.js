@@ -50,20 +50,19 @@ function initStickyHeader() {
    -------------------------------------------------------------------------- */
 function initMobileNav() {
   const hamburger = document.getElementById('navHamburger');
-  const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-  const navList = document.getElementById('navbarList');
+  const dropdown = document.getElementById('mobileDropdown');
   const backdrop = document.getElementById('navDrawerBackdrop');
 
-  if (!hamburger || !navList) return;
+  if (!hamburger || !dropdown) return;
 
   function toggleMenu(forceClose = false) {
     if (forceClose) {
       hamburger.classList.remove('active');
-      navList.classList.remove('open');
+      dropdown.classList.remove('open');
       document.body.classList.remove('drawer-open');
       if (backdrop) backdrop.classList.remove('active');
     } else {
-      const isOpen = navList.classList.toggle('open');
+      const isOpen = dropdown.classList.toggle('open');
       hamburger.classList.toggle('active', isOpen);
       document.body.classList.toggle('drawer-open', isOpen);
       if (backdrop) backdrop.classList.toggle('active', isOpen);
@@ -75,13 +74,6 @@ function initMobileNav() {
     toggleMenu();
   });
 
-  if (drawerCloseBtn) {
-    drawerCloseBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleMenu(true);
-    });
-  }
-
   if (backdrop) {
     backdrop.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -89,19 +81,26 @@ function initMobileNav() {
     });
   }
 
-  // Auto-close drawer when clicking any anchor link
-  navList.addEventListener('click', (e) => {
+  // Auto-close menu when clicking any link inside the mobile dropdown
+  dropdown.addEventListener('click', (e) => {
     const anchor = e.target.closest('a');
-    if (anchor && navList.classList.contains('open')) {
+    if (anchor && dropdown.classList.contains('open')) {
       toggleMenu(true);
     }
   });
 
-  // Close when tapping outside the open drawer
+  // Close when tapping outside
   document.addEventListener('click', (e) => {
-    if (navList.classList.contains('open') &&
-        !navList.contains(e.target) &&
+    if (dropdown.classList.contains('open') &&
+        !dropdown.contains(e.target) &&
         !hamburger.contains(e.target)) {
+      toggleMenu(true);
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && dropdown.classList.contains('open')) {
       toggleMenu(true);
     }
   });

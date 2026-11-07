@@ -716,6 +716,10 @@ ul, ol {
   display: none;
 }
 
+.drawer-header-bar,
+.drawer-footer-cta {
+  display: none !important;
+}
 /* ==========================================================================
    SECTION 2: FULL-SCREEN HERO (100VH / RICH COMPOSITION)
    ========================================================================== */
@@ -11819,16 +11823,233 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* ==========================================================================
-   PREMIUM LIGHT-THEME MOBILE NAVIGATION & RESPONSIVENESS (MATCHES NGOWEBSITE.IN)
+   PERFECT CLEAN NAVBAR & HIGH-CONVERSION LANDING PAGE MOBILE DROPDOWN
+   (100% Matches ngowebsite.in Architecture)
    ========================================================================== */
 
-/* Universal horizontal overflow prevention */
-html, body {
-  max-width: 100vw !important;
-  overflow-x: hidden !important;
+/* 1. Master Sticky Navbar Structure */
+.modern-sticky-nav {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 20px rgba(10, 26, 63, 0.05) !important;
+  z-index: 1000 !important;
+  transition: all 0.25s ease !important;
 }
 
-/* 1. Gentle Soft Backdrop Overlay */
+.modern-sticky-nav.scrolled {
+  background: #FFFFFF !important;
+  box-shadow: 0 8px 25px rgba(10, 26, 63, 0.08) !important;
+}
+
+.nav-container {
+  max-width: 1400px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 74px !important;
+  gap: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* Brand Logo (Left) */
+.brand-logo-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+}
+
+.brand-logo-wrap img {
+  width: 44px !important;
+  height: 44px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+}
+
+.brand-logo-text {
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1.18 !important;
+}
+
+.brand-name-en {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  color: #0A1A3F !important;
+  letter-spacing: -0.2px !important;
+  white-space: nowrap !important;
+}
+
+.brand-name-hi {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+  color: #1D4ED8 !important;
+  white-space: nowrap !important;
+}
+
+/* Desktop In-Page Navigation Links (Middle - Pure Text, Zero Clutter) */
+.nav-links-menu {
+  display: flex !important;
+  align-items: center !important;
+  gap: 24px !important;
+  margin: 0 auto !important;
+  position: static !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+.nav-links-menu .nav-link-item {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  color: #1E293B !important;
+  text-decoration: none !important;
+  position: relative !important;
+  padding: 6px 0 !important;
+  transition: color 0.2s ease !important;
+  white-space: nowrap !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.nav-links-menu .nav-link-item::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 100% !important;
+  bottom: -2px !important;
+  height: 2.5px !important;
+  background: #F59E0B !important;
+  border-radius: 999px !important;
+  transition: right 0.22s ease !important;
+}
+
+.nav-links-menu .nav-link-item:hover,
+.nav-links-menu .nav-link-item.active {
+  color: #1D4ED8 !important;
+}
+
+.nav-links-menu .nav-link-item:hover::after,
+.nav-links-menu .nav-link-item.active::after {
+  right: 0 !important;
+}
+
+/* Right Side: Helpline + Direct Action Button */
+.nav-actions-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  flex-shrink: 0 !important;
+  margin-left: auto !important;
+}
+
+.nav-helpline-box {
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1.22 !important;
+  padding-left: 16px !important;
+  border-left: 1px solid #E2E8F0 !important;
+  text-align: right !important;
+}
+
+.nav-helpline-box small {
+  font-size: 11px !important;
+  color: #64748B !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.nav-helpline-box b a {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 14.5px !important;
+  color: #0A1A3F !important;
+  text-decoration: none !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+  transition: color 0.2s ease !important;
+}
+
+.nav-helpline-box b a:hover {
+  color: #1D4ED8 !important;
+}
+
+.btn-nav-cta {
+  min-height: 44px !important;
+  padding: 0 24px !important;
+  font-family: 'Jost', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.3) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-nav-cta:hover {
+  background: linear-gradient(135deg, #0A1A3F 0%, #1D4ED8 100%) !important;
+  box-shadow: 0 12px 26px rgba(29, 78, 216, 0.42) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Hamburger Toggle Button (Hidden on Desktop, Displayed <= 991px) */
+.nav-hamburger-toggle {
+  display: none !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 10px !important;
+  background: #EFF6FF !important;
+  border: 1.5px solid rgba(29, 78, 216, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(10, 26, 63, 0.08) !important;
+  cursor: pointer !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 0 !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+  z-index: 1002 !important;
+}
+
+.hamburger-bar {
+  display: block !important;
+  width: 22px !important;
+  height: 2.4px !important;
+  background-color: #0A1A3F !important;
+  border-radius: 2px !important;
+  transition: transform 0.25s ease, opacity 0.25s ease, background-color 0.25s ease !important;
+}
+
+/* 2. Mobile Dropdown Menu (Hidden by default, drops down on mobile when .open) */
+.mobile-dropdown-menu {
+  display: none !important;
+}
+
+/* Soft Backdrop Overlay */
 .drawer-backdrop {
   position: fixed !important;
   inset: 0 !important;
@@ -11846,7 +12067,7 @@ html, body {
   pointer-events: auto !important;
 }
 
-/* 2. Floating action buttons must NEVER overlap the open navigation */
+/* Floating Actions Hide when mobile menu is active */
 .floating-action-desk {
   z-index: 90 !important;
   transition: opacity 0.2s ease, visibility 0.2s ease !important;
@@ -11858,96 +12079,54 @@ body.drawer-open .floating-action-desk {
   pointer-events: none !important;
 }
 
-/* 3. Sticky Navbar on Desktop & Laptop (<= 1160px) */
+/* --------------------------------------------------------------------------
+   RESPONSIVE MEDIA QUERIES (TABLETS & PHONES)
+   -------------------------------------------------------------------------- */
 @media (max-width: 1160px) {
   .nav-helpline-box {
     display: none !important;
   }
 }
 
-/* 4. Pure-White High-Contrast Mobile Navigation (<= 991px) */
 @media (max-width: 991px) {
   .modern-sticky-nav {
-    position: sticky !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
     height: 66px !important;
-    background: #FFFFFF !important;
-    border-bottom: 1px solid #E2E8F0 !important;
-    box-shadow: 0 4px 20px rgba(10, 26, 63, 0.06) !important;
-    z-index: 1000 !important;
   }
 
   .nav-container {
-    position: relative !important;
     padding: 0 16px !important;
     min-height: 66px !important;
     height: 66px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
     gap: 8px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
   }
 
+  /* Brand Logo Compaction */
   .brand-logo-wrap {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    text-decoration: none !important;
-    max-width: calc(100% - 60px) !important;
-    flex-shrink: 1 !important;
-    min-width: 0 !important;
+    max-width: calc(100% - 56px) !important;
+    gap: 8px !important;
   }
 
   .brand-logo-wrap img {
     width: 38px !important;
     height: 38px !important;
-    flex-shrink: 0 !important;
-  }
-
-  .brand-logo-text {
-    display: flex !important;
-    flex-direction: column !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
-    line-height: 1.15 !important;
   }
 
   .brand-name-en {
-    font-family: 'Jost', sans-serif !important;
-    font-size: 0.82rem !important;
-    font-weight: 800 !important;
-    color: #0A1A3F !important;
-    letter-spacing: -0.2px !important;
-    white-space: nowrap !important;
+    font-size: 0.80rem !important;
+    max-width: 210px !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
   }
 
   .brand-name-hi {
-    font-family: 'Jost', sans-serif !important;
-    font-size: 0.70rem !important;
-    font-weight: 700 !important;
-    color: #1D4ED8 !important;
-    white-space: nowrap !important;
+    font-size: 0.68rem !important;
+    max-width: 210px !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
   }
 
-  .nav-actions-right {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0 !important;
-    flex-shrink: 0 !important;
-    margin-left: auto !important;
-  }
-
-  .nav-helpline-box {
+  /* Hide Desktop Nav in Header */
+  .nav-links-menu {
     display: none !important;
   }
 
@@ -11955,45 +12134,8 @@ body.drawer-open .floating-action-desk {
     display: none !important;
   }
 
-  /* Crisp Hamburger Toggle Button */
   .nav-hamburger-toggle {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 5px !important;
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 10px !important;
-    background: #EFF6FF !important;
-    border: 1.5px solid rgba(29, 78, 216, 0.3) !important;
-    box-shadow: 0 2px 8px rgba(10, 26, 63, 0.08) !important;
-    cursor: pointer !important;
-    flex-shrink: 0 !important;
-    padding: 0 !important;
-    transition: all 0.2s ease !important;
-    z-index: 1002 !important;
-  }
-
-  .nav-hamburger-toggle:hover,
-  .nav-hamburger-toggle:active {
-    background: #1D4ED8 !important;
-    border-color: #1D4ED8 !important;
-    transform: scale(1.03) !important;
-  }
-
-  .nav-hamburger-toggle:hover .hamburger-bar,
-  .nav-hamburger-toggle:active .hamburger-bar {
-    background-color: #FFFFFF !important;
-  }
-
-  .hamburger-bar {
-    display: block !important;
-    width: 22px !important;
-    height: 2.4px !important;
-    background-color: #0A1A3F !important;
-    border-radius: 2px !important;
-    transition: transform 0.25s ease, opacity 0.25s ease, background-color 0.25s ease !important;
   }
 
   .nav-hamburger-toggle.active {
@@ -12018,9 +12160,9 @@ body.drawer-open .floating-action-desk {
   }
 
   /* -------------------------------------------------------------
-     PURE-WHITE DROPDOWN MENU (MATCHES NGOWEBSITE.IN MOBILE NAV)
+     MOBILE DROPDOWN (Matches ngowebsite.in drop-from-navbar)
      ------------------------------------------------------------- */
-  .nav-links-menu {
+  .mobile-dropdown-menu {
     display: none !important;
     position: absolute !important;
     top: 66px !important;
@@ -12035,7 +12177,7 @@ body.drawer-open .floating-action-desk {
     padding: 16px 20px 24px !important;
     box-sizing: border-box !important;
     flex-direction: column !important;
-    gap: 2px !important;
+    gap: 4px !important;
     z-index: 1001 !important;
     max-height: calc(100vh - 70px) !important;
     max-height: calc(100dvh - 70px) !important;
@@ -12043,7 +12185,7 @@ body.drawer-open .floating-action-desk {
     -webkit-overflow-scrolling: touch !important;
   }
 
-  .nav-links-menu.open {
+  .mobile-dropdown-menu.open {
     display: flex !important;
     animation: navMenuSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   }
@@ -12059,65 +12201,14 @@ body.drawer-open .floating-action-desk {
     }
   }
 
-  /* Drawer Top Brand Bar */
-  .drawer-header-bar {
+  .mobile-menu-links {
     display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 4px 6px 12px !important;
-    margin-bottom: 8px !important;
-    border-bottom: 1.5px solid #E2E8F0 !important;
+    flex-direction: column !important;
+    gap: 2px !important;
     width: 100% !important;
-    box-sizing: border-box !important;
   }
 
-  .drawer-title-brand {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-  }
-
-  .drawer-logo-mini {
-    width: 28px !important;
-    height: 28px !important;
-    object-fit: contain !important;
-  }
-
-  .drawer-title-brand span {
-    font-family: 'Jost', sans-serif !important;
-    font-size: 0.95rem !important;
-    font-weight: 800 !important;
-    color: #0A1A3F !important;
-    letter-spacing: -0.2px !important;
-  }
-
-  .drawer-close-btn {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 50% !important;
-    background: #F1F5F9 !important;
-    border: 1px solid #CBD5E1 !important;
-    color: #475569 !important;
-    font-size: 1.1rem !important;
-    font-weight: 700 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    padding: 0 !important;
-    line-height: 1 !important;
-  }
-
-  .drawer-close-btn:hover {
-    background: #DC2626 !important;
-    color: #FFFFFF !important;
-    border-color: #DC2626 !important;
-    transform: rotate(90deg) !important;
-  }
-
-  /* Ultra-Clear High-Contrast Navigation Links */
-  .nav-links-menu .nav-link-item {
+  .mobile-nav-link {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -12126,7 +12217,6 @@ body.drawer-open .floating-action-desk {
     font-size: 1.02rem !important;
     font-weight: 700 !important;
     color: #0A1A3F !important;
-    background: #FFFFFF !important;
     text-decoration: none !important;
     border-bottom: 1px solid #F1F5F9 !important;
     border-radius: 8px !important;
@@ -12135,32 +12225,28 @@ body.drawer-open .floating-action-desk {
     box-sizing: border-box !important;
   }
 
-  .nav-links-menu .nav-link-item::after {
+  .mobile-nav-link::after {
     content: "›" !important;
-    position: static !important;
     font-size: 1.35rem !important;
     line-height: 1 !important;
     color: #F59E0B !important;
-    background: none !important;
-    height: auto !important;
-    border-radius: 0 !important;
     transition: transform 0.18s ease !important;
   }
 
-  .nav-links-menu .nav-link-item:hover,
-  .nav-links-menu .nav-link-item:active {
+  .mobile-nav-link:hover,
+  .mobile-nav-link:active {
     background: #EFF6FF !important;
     color: #1D4ED8 !important;
     padding-left: 20px !important;
   }
 
-  .nav-links-menu .nav-link-item:hover::after {
+  .mobile-nav-link:hover::after {
     color: #1D4ED8 !important;
     transform: translateX(4px) !important;
   }
 
-  /* Dedicated Mobile CTA & Helpline Card */
-  .drawer-footer-cta {
+  /* Mobile Dropdown Footer CTA */
+  .mobile-menu-footer {
     margin-top: 14px !important;
     padding: 16px !important;
     background: #F8FAFC !important;
@@ -12173,7 +12259,7 @@ body.drawer-open .floating-action-desk {
     box-sizing: border-box !important;
   }
 
-  .drawer-cta-btn {
+  .mobile-menu-cta-btn {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -12194,13 +12280,13 @@ body.drawer-open .floating-action-desk {
     transition: all 0.2s ease !important;
   }
 
-  .drawer-cta-btn:hover,
-  .drawer-cta-btn:active {
+  .mobile-menu-cta-btn:hover,
+  .mobile-menu-cta-btn:active {
     background: linear-gradient(135deg, #FEF08A 0%, #F59E0B 100%) !important;
     transform: translateY(-2px) !important;
   }
 
-  .drawer-helpline-box {
+  .mobile-menu-helpline {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -12208,7 +12294,7 @@ body.drawer-open .floating-action-desk {
     text-align: center !important;
   }
 
-  .drawer-helpline-box small {
+  .mobile-menu-helpline small {
     font-size: 0.74rem !important;
     color: #64748B !important;
     font-weight: 600 !important;
@@ -12216,7 +12302,7 @@ body.drawer-open .floating-action-desk {
     letter-spacing: 0.04em !important;
   }
 
-  .drawer-helpline-box a {
+  .mobile-menu-helpline a {
     font-family: 'Jost', sans-serif !important;
     font-size: 0.95rem !important;
     font-weight: 800 !important;
@@ -12224,7 +12310,7 @@ body.drawer-open .floating-action-desk {
     text-decoration: none !important;
   }
 
-  .drawer-gov-badge {
+  .mobile-menu-seal-note {
     font-size: 0.70rem !important;
     color: #1D4ED8 !important;
     text-align: center !important;
@@ -12234,58 +12320,14 @@ body.drawer-open .floating-action-desk {
   }
 }
 
-/* 5. Mobile Small Viewports (<= 480px) */
 @media (max-width: 480px) {
-  .brand-logo-wrap {
-    max-width: calc(100% - 50px) !important;
-  }
   .brand-name-en {
     font-size: 0.75rem !important;
-    max-width: 175px !important;
+    max-width: 170px !important;
   }
+
   .brand-name-hi {
     font-size: 0.64rem !important;
-    max-width: 175px !important;
-  }
-
-  .hero-float-badge.float-badge-tl {
-    top: -10px !important;
-    left: 2px !important;
-    transform: scale(0.88) !important;
-  }
-  .hero-float-badge.float-badge-tr {
-    top: -10px !important;
-    right: 2px !important;
-    transform: scale(0.88) !important;
-  }
-  .hero-float-badge.float-badge-bl {
-    bottom: -10px !important;
-    left: 2px !important;
-    transform: scale(0.88) !important;
-  }
-  .hero-float-badge.float-badge-br {
-    bottom: -10px !important;
-    right: 2px !important;
-    transform: scale(0.88) !important;
-  }
-  .hero-float-badge {
-    padding: 6px 10px !important;
-  }
-  .hero-float-badge strong {
-    font-size: 0.72rem !important;
-  }
-  .hero-float-badge small {
-    font-size: 0.62rem !important;
-  }
-
-  /* Floating action buttons at bottom-right */
-  .floating-action-desk {
-    right: 12px !important;
-    bottom: 12px !important;
-    gap: 8px !important;
-  }
-  .float-btn {
-    width: 44px !important;
-    height: 44px !important;
+    max-width: 170px !important;
   }
 }
